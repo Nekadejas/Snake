@@ -18,7 +18,6 @@ namespace WpfApp1
         private Rectangle body;
         private List<Rectangle> FullBody;
         private int FoodEaten;
-
         private int Width;
         private int Height;
         private Brush SnakeColor;
@@ -44,15 +43,11 @@ namespace WpfApp1
             body.Fill = snakeColor;
             MoveDirectionHor = width;
             FoodEaten = 3;
-            
-
-
             for (int i = 0; i < FoodEaten-1; i++)
             {
 
                 FullBody.Add(CreateBodyPart());
             }
-
         }
         
         public void Update(Canvas canvas)
@@ -61,10 +56,6 @@ namespace WpfApp1
             PosY = PosY + MoveDircetionVer;
             PosX = PosX + MoveDirectionHor;
             MoveRestriction(canvas);
-
-
-
-
         }
         public void UpdateKey(Key keyPressed)
         {
@@ -109,15 +100,8 @@ namespace WpfApp1
                 default:
                     break;
             }
-
-
-
-
         }
-        public void Destroy()
-        {
-
-        }
+        
         public void Draw(Canvas canvas)
         {
             int i = Width;
@@ -127,8 +111,6 @@ namespace WpfApp1
                 Canvas.SetLeft(body, PosX);
                 Canvas.SetTop(body, PosY);
                 canvas.Children.Add(body);
-                
-                
             }
 
 

@@ -23,8 +23,6 @@ namespace WpfApp1
         
         public Food(int width, int height, Brush color,int posY, int posX)
         {
-            
-            
             Width = width;
             Height = height;
             Color = color;
@@ -33,7 +31,6 @@ namespace WpfApp1
             body.Fill = Color;
             FoodPosY = posY;
             FoodPosX = posX;
-            
         }
         public int GetFoodW(Rectangle body)
         {
@@ -51,28 +48,15 @@ namespace WpfApp1
         {
             return FoodPosX;
         }
-        public void Update()
-        {
-            
-
-
-        }
-        public void Destroy()
-        {
-
-        }
+       
         public void Draw()
         {
             Canvas.SetLeft(body, FoodPosX);
             Canvas.SetTop(body, FoodPosY);
-
-
         }
         public void SetCanvas(Canvas canvas)
         {
             canvas.Children.Add(body);
-
-
         }
         public void DrawFirstTime()
         {
@@ -107,7 +91,5 @@ namespace WpfApp1
                 canvas.Children.Add(food);
             }
         }
-
-
     }
 }
