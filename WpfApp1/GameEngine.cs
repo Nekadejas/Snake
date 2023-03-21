@@ -16,9 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-
-
-
+using Path = System.IO.Path;
 
 namespace WpfApp1
 {
@@ -116,13 +114,10 @@ namespace WpfApp1
                 }
             }
             food.GreenFoodChecker(canvas,x,y);
-
         }
         public static int GetHighScore()
         {
-            string path = System.IO.Path.GetFullPath("HighScore.txt");
-            string x;
-            x = File.ReadAllText(@"C:/Users/gzamu/source/repos/WpfApp1/WpfApp1/HighScore.txt");
+            string x = File.ReadAllText("HighScore.txt");
             int highscore = int.Parse(x);
             return highscore;
         }
@@ -131,10 +126,8 @@ namespace WpfApp1
             if (GetHighScore() < snake.GetFoodEaten() - 3)
             {
                 
-                File.WriteAllText(@"C:/Users/gzamu/source/repos/WpfApp1/WpfApp1/HighScore.txt", (snake.GetFoodEaten() - 3).ToString());
+                File.WriteAllText("HighScore.txt", (snake.GetFoodEaten() - 3).ToString());
             }
-            
-
         }
     }
 }
