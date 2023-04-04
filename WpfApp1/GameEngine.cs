@@ -120,7 +120,6 @@ namespace WpfApp1
         {
             if (GetHighScore() < snake.FoodEaten - 3)
             {
-                
                 File.WriteAllText("HighScore.txt", (snake.FoodEaten - 3).ToString());
             }
         }
