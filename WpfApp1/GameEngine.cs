@@ -23,57 +23,52 @@ namespace WpfApp1
     class GameEngine : DispatcherObject
     {
 
-        Snake snake;
-
-        private int cubeSize = 3;
-        
-        
+        private Snake _snake;
+        private int _cubeSize = 3;
         public Canvas Board;
         
         public GameEngine(Canvas gameboard)
         {
             this.Board = gameboard;
             
-            snake = new Snake(cubeSize, cubeSize, Brushes.White,GenerateRandomPosY(gameboard),GenerateRandomPosX(gameboard));
-            string scoreString = "Score: " + (snake.GetFoodEaten() - 3).ToString();
+            _snake = new Snake(_cubeSize, _cubeSize, Brushes.White,GenerateRandomPosY(gameboard),GenerateRandomPosX(gameboard));
+            string scoreString = "Score: " + (_snake.GetFoodEaten() - 3).ToString();
             gameboard.Resources.Add("MyScore", scoreString);
             gameboard.Resources.Add("HighScore","Highscore: " + GetHighScore().ToString());
         }
         
-        
         public void GameLoop()
         {
-            Food food = new Food(cubeSize,cubeSize,Brushes.Green,GenerateRandomPosY(Board), GenerateRandomPosX(Board));
-            snake.Draw(Board);
+            Food food = new Food(_cubeSize,_cubeSize,Brushes.Green,GenerateRandomPosY(Board), GenerateRandomPosX(Board));
+            _snake.Draw(Board);
             Task.Run(() =>
             {
                 while (true)
                 {
                     this.Dispatcher.Invoke((Action)(() =>
                     {
-                            snake.Update(Board);
-                            snake.DrawNext(Board,snake);
+                            _snake.Update(Board);
+                            _snake.DrawNext(Board,_snake);
                             GreenFoodManager(food, Board);
 
-                        if (snake.IsDead(Board) == true)
+                        if (_snake.IsDead(Board) == true)
                         {
-
-                            HighScore(snake);
+                            HighScore(_snake);
                             GetHighScore();
                             MessageBox.Show("GameOver!");
                             this.Dispatcher.InvokeShutdown();
                         }
                     }));
-                    Thread.Sleep(300 - snake.GetFoodEaten()*5);
+                    Thread.Sleep(300 - _snake.GetFoodEaten()*5);
                 }
             });
         }
         public int GenerateRandomPosX(Canvas gameboard)
         {
             Random random = new Random();
-            double x = gameboard.Width / cubeSize;
+            double x = gameboard.Width / _cubeSize;
 
-            int randomPosX = random.Next(0, (int)x) * cubeSize;
+            int randomPosX = random.Next(0, (int)x) * _cubeSize;
 
             return randomPosX;
         }
@@ -81,15 +76,15 @@ namespace WpfApp1
         {
             Random random = new Random();
 
-            double y = gameboard.Height / cubeSize;
-            int randomPosY = random.Next(0, (int)y) * cubeSize;
+            double y = gameboard.Height / _cubeSize;
+            int randomPosY = random.Next(0, (int)y) * _cubeSize;
 
             return randomPosY;
         }
        
         public void UpdateMovement(Key key)
         {
-            snake.UpdateMovement(key);
+            _snake.UpdateMovement(key);
         }
         public void GreenFoodManager(Food food,Canvas canvas)
         {

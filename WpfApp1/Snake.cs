@@ -15,46 +15,43 @@ namespace WpfApp1
 {
     class Snake
     {
-        private Rectangle body;
-        private List<Rectangle> FullBody;
-        private int FoodEaten;
-        private int Width;
-        private int Height;
-        private Brush SnakeColor;
-        private int PosY;
-        private int PosX;
+        private Rectangle _body;
+        private List<Rectangle> _fullBody;
+        private int _foodEaten;
+        private int _width;
+        private int _height;
+        private Brush _snakeColor;
+        private int _posY;
+        private int _posX;
         public int MoveDirectionHor;
-        public int MoveDircetionVer = 0;
-        private Key moveDir;
-
-        
+        public int MoveDircetionVer;
+        private Key _moveDir;
 
         public Snake(int width, int height, Brush snakeColor, int posY, int posX)
         {
-            body = new Rectangle();
-            FullBody = new List<Rectangle>();
-            Width = width;
-            Height = height;
-            SnakeColor = snakeColor;
-            PosY = posY;
-            PosX = posX;
-            body.Width = width;
-            body.Height = height;
-            body.Fill = snakeColor;
+            _body = new Rectangle();
+            _fullBody = new List<Rectangle>();
+            _width = width;
+            _height = height;
+            _snakeColor = snakeColor;
+            _posY = posY;
+            _posX = posX;
+            _body.Width = width;
+            _body.Height = height;
+            _body.Fill = snakeColor;
             MoveDirectionHor = width;
-            FoodEaten = 3;
-            for (int i = 0; i < FoodEaten-1; i++)
+            _foodEaten = 3;
+            for (int i = 0; i < _foodEaten-1; i++)
             {
 
-                FullBody.Add(CreateBodyPart());
+                _fullBody.Add(CreateBodyPart());
             }
         }
-        
         public void Update(Canvas canvas)
         {
-            UpdateKey(moveDir);
-            PosY = PosY + MoveDircetionVer;
-            PosX = PosX + MoveDirectionHor;
+            UpdateKey(_moveDir);
+            _posY = _posY + MoveDircetionVer;
+            _posX = _posX + MoveDirectionHor;
             MoveRestriction(canvas);
         }
         public void UpdateKey(Key keyPressed)
@@ -63,38 +60,38 @@ namespace WpfApp1
             switch (keyPressed)
             {
                 case Key.Up:
-                    if (MoveDircetionVer == Width)
+                    if (MoveDircetionVer == _width)
                     {
                         return;
                     }
-                    MoveDircetionVer = -Width;
+                    MoveDircetionVer = -_width;
                     MoveDirectionHor = 0;
 
                     break;
                 case Key.Down:
 
-                    if (MoveDircetionVer == -Width)
+                    if (MoveDircetionVer == -_width)
                     {
                         return;
                     }
-                    MoveDircetionVer = Width;
+                    MoveDircetionVer = _width;
                     MoveDirectionHor = 0;
 
                     break;
                 case Key.Left:
-                    if (MoveDirectionHor == Height)
+                    if (MoveDirectionHor == _height)
                     {
                         return;
                     }
-                    MoveDirectionHor = -Height;
+                    MoveDirectionHor = -_height;
                     MoveDircetionVer = 0;
                     break;
                 case Key.Right:
-                    if (MoveDirectionHor == -Height)
+                    if (MoveDirectionHor == -_height)
                     {
                         return;
                     }
-                    MoveDirectionHor = Height;
+                    MoveDirectionHor = _height;
                     MoveDircetionVer = 0;
                     break;
                 default:
@@ -104,105 +101,96 @@ namespace WpfApp1
         
         public void Draw(Canvas canvas)
         {
-            int i = Width;
-            foreach (Rectangle body in FullBody)
+            int i = _width;
+            foreach (Rectangle body in _fullBody)
             {
-                PosX = PosX + i;
-                Canvas.SetLeft(body, PosX);
-                Canvas.SetTop(body, PosY);
+                _posX = _posX + i;
+                Canvas.SetLeft(body, _posX);
+                Canvas.SetTop(body, _posY);
                 canvas.Children.Add(body);
             }
-
-
         }
         public void DrawNext(Canvas canvas,Snake snake)
         {
-
-
-
-            FullBody.Add(CreateBodyPart());
-            Canvas.SetLeft(FullBody[FullBody.Count - 1], PosX);
-            Canvas.SetTop(FullBody[FullBody.Count - 1], PosY);
-            canvas.Children.Add(FullBody[FullBody.Count - 1]);
+            _fullBody.Add(CreateBodyPart());
+            Canvas.SetLeft(_fullBody[_fullBody.Count - 1], _posX);
+            Canvas.SetTop(_fullBody[_fullBody.Count - 1], _posY);
+            canvas.Children.Add(_fullBody[_fullBody.Count - 1]);
             
             Eat(canvas, snake);
-            if (FoodEaten < FullBody.Count)
+            if (_foodEaten < _fullBody.Count)
             {
-                canvas.Children.Remove(FullBody[0]);
-                FullBody.RemoveAt(0);
+                canvas.Children.Remove(_fullBody[0]);
+                _fullBody.RemoveAt(0);
 
 
             }
-
-
         }
        
         public void SetCanvas(Canvas canvas)
         {
-            foreach (Rectangle body in FullBody)
+            foreach (Rectangle body in _fullBody)
             {
                 canvas.Children.Add(body);
             }
-
         }
         public Rectangle CreateBodyPart()
         {
             Rectangle body = new Rectangle();
 
-            body.Width = this.Width;
-            body.Height = this.Height;
-            body.Fill = SnakeColor;
+            body.Width = this._width;
+            body.Height = this._height;
+            body.Fill = _snakeColor;
             return body;
         }
         public void MoveRestriction(Canvas canvas)
         {
-            if (PosY >= canvas.Height) // Going Down
+            if (_posY >= canvas.Height) // Going Down
             {
-                PosY = 0;
+                _posY = 0;
             }
-            else if (PosY <= -1)// Going Up
+            else if (_posY <= -1)// Going Up
             {
-                PosY = (int)canvas.Height - Height;
+                _posY = (int)canvas.Height - _height;
             }
-            else if (PosX >= canvas.Width) //Going Right
+            else if (_posX >= canvas.Width) //Going Right
             {
-                PosX = 0;
+                _posX = 0;
             }
 
-            else if (PosX <= -1) // Going Left
+            else if (_posX <= -1) // Going Left
             {
-                PosX = (int)canvas.Width - Width;
+                _posX = (int)canvas.Width - _width;
             }
         }
 
         public void UpdateMovement(Key keyInput)
         {
-            moveDir = keyInput;
+            _moveDir = keyInput;
         }
         public List<Rectangle> GetBody()
         {
-            return FullBody;
+            return _fullBody;
 
         }
         public void Eat(Canvas canvas,Snake snake)
         {
             List<Rectangle> FoodList= new List<Rectangle>();
-            foreach (System.Windows.Shapes.Rectangle rect in canvas.Children.OfType<System.Windows.Shapes.Rectangle>())
+            foreach (System.Windows.Shapes.Rectangle rect in canvas.Children.OfType<Rectangle>())
             {
                 if (rect.Fill == Brushes.Green)
                 {
                     FoodList.Add(rect);
 
                 }
-                
             }
             foreach (Rectangle food in FoodList)
             {
                 double x = Canvas.GetLeft(food);
                 double y = Canvas.GetTop(food);
-                if(x == PosX && y == PosY)
+                if(x == _posX && y == _posY)
                 {
-                    FoodEaten++;
+                    _foodEaten++;
                     canvas.Children.Remove(food);
                     canvas.Resources.Remove("MyScore");
                     string scoreString = "Score: " + (snake.GetFoodEaten()-3).ToString();
@@ -212,19 +200,17 @@ namespace WpfApp1
         }
         public int GetFoodEaten()
         {
-            return FoodEaten;
+            return _foodEaten;
         }
         public bool IsDead(Canvas canvas)
         {
-            for (int i = 0; i < FullBody.Count -1; i++)
+            for (int i = 0; i < _fullBody.Count -1; i++)
             {
-                double x = Canvas.GetLeft(FullBody[i]);
-                double y = Canvas.GetTop(FullBody[i]);
-                if (x == (double)PosX && y == (double)PosY)
+                double x = Canvas.GetLeft(_fullBody[i]);
+                double y = Canvas.GetTop(_fullBody[i]);
+                if (x == (double)_posX && y == (double)_posY)
                 {
-                    
                     return true;
-                    
                 }
             }
             return false;

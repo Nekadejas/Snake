@@ -14,31 +14,31 @@ namespace WpfApp1
 {
     class Food
     {
-        private int Width;
-        private int Height;
-        private Brush Color;
+        private int _width;
+        private int _height;
+        private Brush _color;
         public int FoodPosY;
         public int FoodPosX;
-        private Rectangle body = new Rectangle();
+        private Rectangle _body = new Rectangle();
         
         public Food(int width, int height, Brush color,int posY, int posX)
         {
-            Width = width;
-            Height = height;
-            Color = color;
-            body.Width = Width;
-            body.Height = Height;
-            body.Fill = Color;
+            _width = width;
+            _height = height;
+            _color = color;
+            _body.Width = _width;
+            _body.Height = _height;
+            _body.Fill = _color;
             FoodPosY = posY;
             FoodPosX = posX;
         }
         public int GetFoodW(Rectangle body)
         {
-            return Width;
+            return _width;
         }
         public int GetFoodH(Rectangle body)
         {
-            return Height;
+            return _height;
         }
         public int FPosY(Rectangle body)
         {
@@ -51,27 +51,26 @@ namespace WpfApp1
        
         public void Draw()
         {
-            Canvas.SetLeft(body, FoodPosX);
-            Canvas.SetTop(body, FoodPosY);
+            Canvas.SetLeft(_body, FoodPosX);
+            Canvas.SetTop(_body, FoodPosY);
         }
         public void SetCanvas(Canvas canvas)
         {
-            canvas.Children.Add(body);
+            canvas.Children.Add(_body);
         }
         public void DrawFirstTime()
         {
-            Canvas.SetLeft(body, FoodPosX);
-            Canvas.SetTop(body, FoodPosY);
+            Canvas.SetLeft(_body, FoodPosX);
+            Canvas.SetTop(_body, FoodPosY);
         }
         public Rectangle CreateNewFood()
         {
             Rectangle food = new Rectangle();
 
-            food.Width = this.Width;
-            food.Height = this.Height;
-            food.Fill = Color;
+            food.Width = this._width;
+            food.Height = this._height;
+            food.Fill = _color;
             return food;
-            
         }
         public void GreenFoodChecker(Canvas canvas,int posX, int posY )
         {
