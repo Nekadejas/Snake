@@ -17,7 +17,7 @@ namespace WpfApp1
     {
         private Rectangle _body;
         private List<Rectangle> _fullBody;
-        private int _foodEaten;
+        public int FoodEaten { get; private set; }
         private int _width;
         private int _height;
         private Brush _snakeColor;
@@ -40,8 +40,8 @@ namespace WpfApp1
             _body.Height = height;
             _body.Fill = snakeColor;
             MoveDirectionHor = width;
-            _foodEaten = 3;
-            for (int i = 0; i < _foodEaten-1; i++)
+            FoodEaten = 3;
+            for (int i = 0; i < FoodEaten-1; i++)
             {
 
                 _fullBody.Add(CreateBodyPart());
@@ -118,7 +118,7 @@ namespace WpfApp1
             canvas.Children.Add(_fullBody[_fullBody.Count - 1]);
             
             Eat(canvas, snake);
-            if (_foodEaten < _fullBody.Count)
+            if (FoodEaten < _fullBody.Count)
             {
                 canvas.Children.Remove(_fullBody[0]);
                 _fullBody.RemoveAt(0);
@@ -190,18 +190,15 @@ namespace WpfApp1
                 double y = Canvas.GetTop(food);
                 if(x == _posX && y == _posY)
                 {
-                    _foodEaten++;
+                    FoodEaten++;
                     canvas.Children.Remove(food);
                     canvas.Resources.Remove("MyScore");
-                    string scoreString = "Score: " + (snake.GetFoodEaten()-3).ToString();
+                    string scoreString = "Score: " + (snake.FoodEaten -3).ToString();
                     canvas.Resources.Add("MyScore", scoreString);
                 }
             }
         }
-        public int GetFoodEaten()
-        {
-            return _foodEaten;
-        }
+        
         public bool IsDead(Canvas canvas)
         {
             for (int i = 0; i < _fullBody.Count -1; i++)

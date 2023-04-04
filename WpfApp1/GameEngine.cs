@@ -32,7 +32,7 @@ namespace WpfApp1
             this.Board = gameboard;
             
             _snake = new Snake(_cubeSize, _cubeSize, Brushes.White,GenerateRandomPosY(gameboard),GenerateRandomPosX(gameboard));
-            string scoreString = "Score: " + (_snake.GetFoodEaten() - 3).ToString();
+            string scoreString = "Score: " + (_snake.FoodEaten - 3).ToString();
             gameboard.Resources.Add("MyScore", scoreString);
             gameboard.Resources.Add("HighScore","Highscore: " + GetHighScore().ToString());
         }
@@ -45,7 +45,7 @@ namespace WpfApp1
             {
                 while (true)
                 {
-                    this.Dispatcher.Invoke((Action)(() =>
+                    this.Dispatcher.Invoke((() =>
                     {
                             _snake.Update(Board);
                             _snake.DrawNext(Board,_snake);
@@ -53,13 +53,13 @@ namespace WpfApp1
 
                         if (_snake.IsDead(Board) == true)
                         {
-                            HighScore(_snake);
+                            NewHighScore(_snake);
                             GetHighScore();
                             MessageBox.Show("GameOver!");
                             this.Dispatcher.InvokeShutdown();
                         }
                     }));
-                    Thread.Sleep(300 - _snake.GetFoodEaten()*5);
+                    Thread.Sleep(300 - _snake.FoodEaten*5);
                 }
             });
         }
@@ -116,12 +116,12 @@ namespace WpfApp1
             int highscore = int.Parse(x);
             return highscore;
         }
-        public static void HighScore(Snake snake)
+        public static void NewHighScore(Snake snake)
         {
-            if (GetHighScore() < snake.GetFoodEaten() - 3)
+            if (GetHighScore() < snake.FoodEaten - 3)
             {
                 
-                File.WriteAllText("HighScore.txt", (snake.GetFoodEaten() - 3).ToString());
+                File.WriteAllText("HighScore.txt", (snake.FoodEaten - 3).ToString());
             }
         }
     }
